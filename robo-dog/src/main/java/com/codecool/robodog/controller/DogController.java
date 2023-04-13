@@ -1,43 +1,37 @@
 package com.codecool.robodog.controller;
 
+import com.codecool.robodog.logic.DogService;
 import com.codecool.robodog.model.Dog;
-import com.codecool.robodog.utilities.DogCreator;
-import com.codecool.robodog.utilities.DogStorage;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/dogs")
 public class DogController {
-    private DogStorage dogStorage;
-    private DogCreator dogCreator;
-    
-    public DogController(DogStorage dogStorage, DogCreator dogCreator) {
-        this.dogStorage = dogStorage;
-        this.dogCreator = dogCreator;
+    private final DogService dogService;
+
+    public DogController(DogService dogService) {
+        this.dogService = dogService;
     }
 
-    @GetMapping("/api/dogs")
+    @GetMapping
     public List<Dog> getAllDogs() {
-        return dogStorage.getAll();
+        return dogService.getAll();
     }
 
-    @PostMapping("/api/dogs")
+    @PostMapping
     public Dog createDog(@RequestBody Dog dog) {
-        dogStorage.add(dog);
-        return dog;
+        return dogService.add(dog);
     }
 
-    @PostMapping("/api/dogs/random")
+    @PostMapping("random")
     public Dog createRandomDog() {
-        Dog dog = dogCreator.createRandomDog();
-        dogStorage.add(dog);
-        return dog;
+        return dogService.createOneRandom();
     }
 
-    @PatchMapping("/api/dogs")
+    @PatchMapping
     public Dog updateDog(@RequestBody Dog dog) {
-        dogStorage.update(dog.getName(), dog.getAge(), dog.getBreed().getName());
-        return dog;
+        return dogService.update(dog);
     }
 }

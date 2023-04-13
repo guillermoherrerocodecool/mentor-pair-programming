@@ -1,15 +1,17 @@
-package com.codecool.robodog.utilities;
+package com.codecool.robodog.persistence;
 
 import com.codecool.robodog.model.Dog;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class DogStorage {
-    private List<Dog> dogStorageForDogsThatNeedStorage = new ArrayList<>();
+    private final List<Dog> dogStorageForDogsThatNeedStorage;
+
+    public DogStorage(List<Dog> dogStorageForDogsThatNeedStorage) {
+        this.dogStorageForDogsThatNeedStorage = dogStorageForDogsThatNeedStorage;
+    }
 
     public void add(Dog dog) {
         dogStorageForDogsThatNeedStorage.add(dog);
